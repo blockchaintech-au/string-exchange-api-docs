@@ -817,40 +817,29 @@ Body: empty
 ```
 GET /api/v1/openOrders  (HMAC SHA256)
 ```
-Get all open orders on a symbol. **Careful** when accessing this with no symbol.
-
-**Weight:**
-1 for a single symbol; **number of symbols that are `TRADING` / 2** when the symbol parameter is omitted
+Get all open orders.
 
 **Parameters:**
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-symbol | STRING | NO |
-recvWindow | LONG | NO |
 timestamp | LONG | YES |
-
-* If the symbol is not sent, orders for all symbols will be returned in an array.
-* When all symbols are returned, the number of requests counted against the rate limiter is equal to the number of symbols currently trading on the exchange.
 
 **Response:**
 ```javascript
 [
   {
-    "symbol": "LTCBTC",
-    "orderId": 1,
-    "clientOrderId": "myOrder1",
+    "tradingPair"{
+      "symbol" : "ETH/BTC"
+    }
+    "uuid": "",
     "price": "0.1",
-    "origQty": "1.0",
-    "executedQty": "0.0",
-    "status": "NEW",
-    "timeInForce": "GTC",
+    "amount": "1.0",
+    "filled": "0.0",
+    "status": "Partial Filled",
     "type": "LIMIT",
     "side": "BUY",
-    "stopPrice": "0.0",
-    "icebergQty": "0.0",
-    "time": 1499827319559,
-    "isWorking": trueO
+    "createdAt": "2018-06-27 16:47:55 +1000"
   }
 ]
 ```

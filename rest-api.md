@@ -165,7 +165,7 @@ timestamp | 1499827319559
 
     ```
     (HMAC SHA256)
-    [linux]$ curl -H "X-CEX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A" -X POST 'https://api.binance.com/api/v3/order?symbol=ETH%2FBTC&side=ASK&type=LIMIT' -d 'amount=1&price=0.1&timestamp=1499827319559&signature=0fd168b8ddb4876a0358a8d14d0c9f3da0e9b20c5d52b2a00fcf7d1c602f9a77'
+    [linux]$ curl -H "X-CEX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A" -X POST 'https://api.binance.com/api/v1/order?symbol=ETH%2FBTC&side=ASK&type=LIMIT' -d 'amount=1&price=0.1&timestamp=1499827319559&signature=0fd168b8ddb4876a0358a8d14d0c9f3da0e9b20c5d52b2a00fcf7d1c602f9a77'
     ```
 
 Note that the signature is different in example 3.
@@ -613,7 +613,7 @@ OR
 
 ### Symbol price ticker
 ```
-GET /api/v3/ticker/price
+GET /api/v1/ticker/price
 ```
 Latest price for a symbol or symbols.
 
@@ -651,7 +651,7 @@ OR
 
 ### Symbol order book ticker
 ```
-GET /api/v3/ticker/bookTicker
+GET /api/v1/ticker/bookTicker
 ```
 Best price/qty on the order book for a symbol or symbols.
 
@@ -699,7 +699,7 @@ OR
 ## Account endpoints
 ### Create order  (TRADE)
 ```
-POST /api/v3/order  (HMAC SHA256)
+POST /api/v1/order  (HMAC SHA256)
 ```
 Send in a new order.
 
@@ -733,7 +733,7 @@ Type | Additional mandatory parameters
 
 ### Test new order (TRADE)
 ```
-POST /api/v3/order/test (HMAC SHA256)
+POST /api/v1/order/test (HMAC SHA256)
 ```
 Test new order creation and signature/recvWindow long.
 Creates and validates a new order but does not send it into the matching engine.
@@ -743,7 +743,7 @@ Creates and validates a new order but does not send it into the matching engine.
 
 **Parameters:**
 
-Same as `/api/v3/order`
+Same as `/api/v1/order`
 
 
 **Response:**
@@ -753,7 +753,7 @@ Same as `/api/v3/order`
 
 ### Query order (USER_DATA)
 ```
-GET /api/v3/order (HMAC SHA256)
+GET /api/v1/order (HMAC SHA256)
 ```
 Check an order's status.
 
@@ -795,7 +795,7 @@ Either `orderId` or `origClientOrderId` must be sent.
 
 ### Cancel order (TRADE)
 ```
-DELETE /api/v3/order  (HMAC SHA256)
+DELETE /api/v1/order  (HMAC SHA256)
 ```
 Cancel an active order.
 
@@ -815,7 +815,7 @@ Body: empty
 
 ### Current open orders (USER_DATA)
 ```
-GET /api/v3/openOrders  (HMAC SHA256)
+GET /api/v1/openOrders  (HMAC SHA256)
 ```
 Get all open orders on a symbol. **Careful** when accessing this with no symbol.
 
@@ -857,7 +857,7 @@ timestamp | LONG | YES |
 
 ### All orders (USER_DATA)
 ```
-GET /api/v3/allOrders (HMAC SHA256)
+GET /api/v1/allOrders (HMAC SHA256)
 ```
 Get all account orders; active, canceled, or filled.
 
@@ -901,7 +901,7 @@ Otherwise most recent orders are returned.
 
 ### Account information (USER_DATA)
 ```
-GET /api/v3/account (HMAC SHA256)
+GET /api/v1/account (HMAC SHA256)
 ```
 Get current account information.
 
@@ -943,7 +943,7 @@ timestamp | LONG | YES |
 
 ### Account trade list (USER_DATA)
 ```
-GET /api/v3/myTrades  (HMAC SHA256)
+GET /api/v1/myTrades  (HMAC SHA256)
 ```
 Get trades for a specific account and symbol.
 

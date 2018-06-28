@@ -945,24 +945,18 @@ Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 symbol | STRING | YES |
 limit | INT | NO | Default 500; max 500.
-fromId | LONG | NO | TradeId to fetch from. Default gets most recent trades.
-recvWindow | LONG | NO |
 timestamp | LONG | YES |
 
 **Response:**
 ```javascript
 [
   {
-    "id": 28457,
-    "orderId": 100234,
+    "uuid": afdwefasd28457,
     "price": "4.00000100",
-    "qty": "12.00000000",
-    "commission": "10.10000000",
-    "commissionAsset": "BNB",
-    "time": 1499865549590,
+    "amount": "12.00000000",
+    "createdAt": 1499865549590,
     "isBuyer": true,
     "isMaker": false,
-    "isBestMatch": true
   }
 ]
 ```

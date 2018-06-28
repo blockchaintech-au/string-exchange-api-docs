@@ -829,9 +829,6 @@ timestamp | LONG | YES |
 ```javascript
 [
   {
-    "tradingPair"{
-      "symbol" : "ETH/BTC"
-    }
     "uuid": "",
     "price": "0.1",
     "amount": "1.0",
@@ -839,7 +836,10 @@ timestamp | LONG | YES |
     "status": "Partial Filled",
     "type": "LIMIT",
     "side": "BUY",
-    "createdAt": "2018-06-27 16:47:55 +1000"
+    "createdAt": "2018-06-27 16:47:55 +1000",
+    "tradingPair"{
+      "symbol" : "ETH/BTC"
+    }
   }
 ]
 ```

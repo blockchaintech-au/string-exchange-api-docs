@@ -823,6 +823,7 @@ Get all open orders.
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
+symbol | STRING | NO | If no symbol passed, return all open orders
 timestamp | LONG | YES |
 
 **Response:**

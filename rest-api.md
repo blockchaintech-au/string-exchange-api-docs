@@ -358,24 +358,14 @@ NONE
 GET /api/v1/depth
 ```
 
-**Weight:**
-Adjusted based on the limit:
-
-
-Limit | Weight
------------- | ------------
-5, 10, 20, 50, 100 | 1
-500 | 5
-1000 | 10
-
 **Parameters:**
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 symbol | STRING | YES |
-limit | INT | NO | Default 100; max 1000. Valid limits:[5, 10, 20, 50, 100, 500, 1000]
+limit | INT | NO | Default 100;
 
-**Caution:** setting limit=0 can return a lot of data.
+**Caution:** setting a big limit could cause request timeout
 
 **Response:**
 ```javascript

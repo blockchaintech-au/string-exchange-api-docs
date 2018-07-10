@@ -363,7 +363,7 @@ GET /api/v1/depth
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 symbol | STRING | YES |
-limit | INT | NO | Default 100;
+limit | INT | NO | Default 100; If limit is 10, you will get 10 bids and 10 asks.
 
 **Caution:** setting a big limit could cause request timeout
 

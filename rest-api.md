@@ -537,9 +537,6 @@ GET /api/v1/ticker/24hr
 ```
 24 hour price change statistics. **Careful** when accessing this with no symbol.
 
-**Weight:**
-1 for a single symbol; **number of symbols that are `TRADING` / 2** when the symbol parameter is omitted
-
 **Parameters:**
 
 Name | Type | Mandatory | Description

@@ -668,6 +668,14 @@ amount | DECIMAL | YES | 1.2 |
 price | DECIMAL | YES | 1.2 |
 timestamp | LONG | YES | 1530077353000 |
 
+Single order total value ( amount * price ) should be over minimum trading total described below:
+
+Symbol | Minimum order total
+------------ | ------------
+ETH/BTC | 0.001
+BTC/AUD | 10
+ETH/AUD | 10
+
 Additional mandatory parameters based on `type`:
 
 Type | Additional mandatory parameters

@@ -684,9 +684,24 @@ Type | Additional mandatory parameters
 
 
 **Response:**
+
+Success response
 ```javascript
 {
   "orderUuid": "a7b1f89a-660e-4c9c-8dc6-489860c4e82e",
+}
+```
+
+Failure responses
+```javascript
+# below minimum order total
+{
+    "errors": [
+        {
+            "type": "BELOW_MIN_ORDER_TOTAL",
+            "message": "Order total less than 0.001"
+        }
+    ]
 }
 ```
 

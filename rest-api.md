@@ -336,11 +336,7 @@ Send in a new order.
 
 Name | Type | Mandatory | Example
 ------------ | ------------ | ------------ | ------------
-symbol | STRING | YES | ETH/BTC |
-side | ENUM | YES | ASK, BID |
-type | ENUM | YES | LIMIT |
-amount | DECIMAL | YES | 1.2 |
-price | DECIMAL | YES | 1.2 |
+orderUuid | STRING | YES | 446c0621-ceb8-4cbb-a224-cc2ae80a134b |
 timestamp | LONG | YES | 1530077353000 |
 
 Single order total value ( amount * price ) should be over minimum trading total described below:
@@ -380,25 +376,6 @@ Failure responses
 }
 ```
 
-### Test new order (TRADE)
-```
-POST /api/v1/order/test (HMAC SHA256)
-```
-Test new order creation and signature/recvWindow long.
-Creates and validates a new order but does not send it into the matching engine.
-
-**Weight:**
-1
-
-**Parameters:**
-
-Same as `/api/v1/order`
-
-
-**Response:**
-```javascript
-{}
-```
 
 ### Query order (USER_DATA)
 ```
@@ -413,32 +390,23 @@ Check an order's status.
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-symbol | STRING | YES |
-orderId | LONG | NO |
-origClientOrderId | STRING | NO |
-recvWindow | LONG | NO |
+orderId | LONG | YES |
 timestamp | LONG | YES |
 
-
-Either `orderId` or `origClientOrderId` must be sent.
 
 **Response:**
 ```javascript
 {
-  "symbol": "LTCBTC",
-  "orderId": 1,
-  "clientOrderId": "myOrder1",
+  "symbol": "BTC/AUD",
+  "uuid": "446c0621-ceb8-4cbb-a224-cc2ae80a134b",
   "price": "0.1",
-  "origQty": "1.0",
-  "executedQty": "0.0",
-  "status": "NEW",
-  "timeInForce": "GTC",
+  "amouont": "1.0",
+  "filled": "0.0",
+  "status": "OPEN",
   "type": "LIMIT",
-  "side": "BUY",
-  "stopPrice": "0.0",
-  "icebergQty": "0.0",
-  "time": 1499827319559,
-  "isWorking": true
+  "side": "ASK",
+  "createdAt": "2018-08-16T04:59:49.336Z",
+  "updatedAt": "2018-08-16T04:59:49.336Z",
 }
 ```
 

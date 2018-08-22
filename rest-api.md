@@ -329,6 +329,8 @@ POST /api/v1/order  (HMAC SHA256)
 ```
 Send in a new order.
 
+Note that this API requires ID verification first, otherwise it returns 400 with error.
+
 **Weight:**
 1
 
@@ -371,6 +373,16 @@ Failure responses
         {
             "type": "BELOW_MIN_ORDER_TOTAL",
             "message": "Order total less than 0.001"
+        }
+    ]
+}
+
+# ID not verified
+{
+    "errors": [
+        {
+            "type": "ID_NOT_VERIFIED",
+            "message": "KYC is required"
         }
     ]
 }

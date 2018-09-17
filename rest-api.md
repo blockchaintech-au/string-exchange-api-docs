@@ -2,7 +2,7 @@
 
 # Public Rest API for CEX24 (2018-06-27)
 # General API Information
-* The base endpoint is: **https://api.cex24.io**
+* The base endpoint is: **https://api.string.exchange**
 * All endpoints return either a JSON object or array.
 * Data is returned in **ascending** order. Oldest first, newest last.
 * All time and timestamp related fields are in milliseconds.
@@ -317,6 +317,8 @@ symbol | STRING | NO |
     "open": '0.0292',
     "volume": '0.0413',
     "change": '4.35',
+    "askPrice": '10000.00',
+    "bidPrice": '9999.00'
   }
 ]
 ```

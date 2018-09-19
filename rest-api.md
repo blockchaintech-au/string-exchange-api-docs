@@ -423,6 +423,11 @@ timestamp | LONG | YES |
   "updatedAt": "2018-08-16T04:59:49.336Z",
 }
 ```
+**Responses:**
+
+Name | Type | Values | Description
+------------ | ------------ | ------------ | ------------
+status | String | OPEN, CANCEL, PARTIAL_FILLED, FILLED  |
 
 ### Cancel order (TRADE)
 ```

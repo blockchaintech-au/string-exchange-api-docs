@@ -16,7 +16,7 @@ For the subscription to private channels, authentication is mandatory. One examp
 ### One-time API nonce creation
 
 ```javascript
-POST /api/vi/nonce
+POST /api/v1/nonce
 ```
 
 Note:

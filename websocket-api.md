@@ -35,6 +35,7 @@ Success response
 ```javascript
 {
   "apiNonce": "diGRIKUg5q8VkuMlUyQflGoGlqKHRR5b31vHjMMF",
+  "userUuid": "41d423ad-a0aa-4a2a-997e-12995a6b8fae"
 }
 ```
 

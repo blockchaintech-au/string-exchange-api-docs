@@ -496,7 +496,7 @@ Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 symbol | STRING | YES |
 orderId | LONG | NO |
-limit | INT | NO | Default 500; max 500.
+limit | INT | NO | Default 1000; max 1000.
 recvWindow | LONG | NO |
 timestamp | LONG | YES |
 

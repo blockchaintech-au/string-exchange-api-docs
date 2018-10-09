@@ -8,7 +8,7 @@
 * All time and timestamp related fields are in milliseconds.
 * HTTP `400` return code are used for for malformed requests;
   the issue is on the sender's side.
-* HTTP `401` return code are used for API key and signature error.\
+* HTTP `401` return code are used for API key and signature error.
 * HTTP `500` return code is used for server error
 * Any endpoint can retun an ERROR; the error payload is as follows:
 ```javascript
@@ -33,12 +33,8 @@
   `query string` parameter will be used.
 
 # LIMITS
-* The `/api/v1/exchangeInfo` `rateLimits` array contains objects related to the exchange's `REQUESTS` and `ORDER` rate limits.
-* A 429 will be returned when either rather limit is violated.
-* Each route has a `weight` which determines for the number of requests each endpoint counts for. Heavier endpoints and endpoints that do operations on multiple symbols will have a heavier `weight`.
-* When a 429 is recieved, it's your obligation as an API to back off and not spam the API.
-* **Repeatedly violating rate limits and/or failing to back off after receiving 429s will result in an automated IP ban (http status 418).**
-* IP bans are tracked and **scale in duration** for repeat offenders, **from 2 minutes to 3 days**.
+* API calls are rate limited by IP.
+* 6,000 requests per 5 minutes.
 
 # Endpoint security type
 * Each endpoint has a security type that determines the how you will

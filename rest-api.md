@@ -457,6 +457,7 @@ Get all open orders.
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 symbol | STRING | NO | If no symbol passed, return all open orders
+limit | INT | NO | default 100, max 1000 
 timestamp | LONG | YES |
 
 **Response:**

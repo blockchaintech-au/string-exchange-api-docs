@@ -273,19 +273,16 @@ limit | INT | NO | Default 100; If limit is 10, you will get 10 bids and 10 asks
 **Response:**
 ```javascript
 {
-  "lastUpdateId": 1027024,
   "bids": [
     [
       "4.00000000",     // PRICE
-      "431.00000000",   // QTY
-      []                // Ignore.
+      "431.00000000"   // QTY
     ]
   ],
   "asks": [
     [
       "4.00000200",
-      "12.00000000",
-      []
+      "12.00000000"
     ]
   ]
 }

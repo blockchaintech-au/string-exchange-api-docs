@@ -586,12 +586,27 @@ timestamp | LONG | YES |
 ```javascript
 [
   {
-    "uuid": afdwefasd28457,
-    "price": "4.00000100",
-    "amount": "12.00000000",
-    "createdAt": 1499865549590,
-    "isBuyer": true,
+    "uuid": "abc32965-3e8a-4884-9f48-7a6e90badc22",
+    "createdAt": "2018-10-10T00:11:33.875Z",
+    "price": "8530.32",
+    "amount": "0.015",
+    "isBuyer": false,
     "isMaker": false,
+    "tradingPair": {
+      "uuid": "993c9939-5fb1-430d-865f-5429c8114072",
+      "symbol": "BTC/AUD",
+      "base": {
+        "uuid": "1161f80d-84b6-4a2e-b4b2-1ae722932021",
+        "symbol": "BTC",
+        "precisionScale": 6
+      },
+      "quote": {
+        "uuid": "b128a80e-53d9-48f3-beda-e6076d40de24",
+        "symbol": "AUD",
+        "precisionScale": 2
+      },
+      "minimumTradingTotal": "10.0"
+    }
   }
 ]
 ```

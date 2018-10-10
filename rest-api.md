@@ -1,6 +1,6 @@
 **Thanks binance**
 
-# Public Rest API for CEX24 (2018-06-27)
+# Public Rest API for String.exchange
 # General API Information
 * The base endpoint is: **https://api.string.exchange**
 * All endpoints return either a JSON object or array.
@@ -723,3 +723,5 @@ The `MAX_ALGO_ORDERS` filter defines the maximum number of "algo" orders an acco
   }
 ```
 
+# API Libraries
+[string-exchange-php](https://github.com/blockchaintech-au/string-exchange-php-sdk)

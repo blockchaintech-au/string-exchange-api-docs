@@ -479,50 +479,6 @@ timestamp | LONG | YES |
 ]
 ```
 
-### All orders (USER_DATA)
-```
-GET /api/v1/allOrders (HMAC SHA256)
-```
-Get all account orders; active, canceled, or filled.
-
-**Weight:**
-5
-
-**Parameters:**
-
-Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-symbol | STRING | YES |
-orderId | LONG | NO |
-limit | INT | NO | Default 1000; max 1000.
-recvWindow | LONG | NO |
-timestamp | LONG | YES |
-
-* If `orderId` is set, it will get orders >= that `orderId`.
-Otherwise most recent orders are returned.
-
-**Response:**
-```javascript
-[
-  {
-    "symbol": "LTCBTC",
-    "orderId": 1,
-    "clientOrderId": "myOrder1",
-    "price": "0.1",
-    "origQty": "1.0",
-    "executedQty": "0.0",
-    "status": "NEW",
-    "timeInForce": "GTC",
-    "type": "LIMIT",
-    "side": "BUY",
-    "stopPrice": "0.0",
-    "icebergQty": "0.0",
-    "time": 1499827319559,
-    "isWorking": true
-  }
-]
-```
-
 ### Account information (USER_DATA)
 ```
 GET /api/v1/account (HMAC SHA256)

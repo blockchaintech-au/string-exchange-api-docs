@@ -1,4 +1,4 @@
-# cex-api-docs
+# string-exchange-api-docs
 
 ## API Documentations.
 

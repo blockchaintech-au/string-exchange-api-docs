@@ -722,6 +722,3 @@ The `MAX_ALGO_ORDERS` filter defines the maximum number of "algo" orders an acco
     "limit": 200
   }
 ```
-
-# API Libraries
-[string-exchange-php](https://github.com/blockchaintech-au/string-exchange-php-sdk)

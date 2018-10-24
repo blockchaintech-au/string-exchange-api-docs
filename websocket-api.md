@@ -56,7 +56,7 @@ Failure responses
 
 Note:
 * Please refer to the [Pusher authentication](https://pusher.com/docs/authenticating_users)
-* Pusher app_key: e5f57e41f4928bf98a7f
+* Pusher app_key: 16e8920e945846c1be20
 
 ```javascript
 auth endpoint: /api/v1/pusher/authentication

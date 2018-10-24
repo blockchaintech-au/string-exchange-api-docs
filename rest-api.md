@@ -29,38 +29,13 @@
   `application/x-www-form-urlencoded`. You may mix parameters between both the
   `query string` and `request body` if you wish to do so.
 * Parameters may be sent in any order.
-* If a parameter sent in both the `query string` and `request body`, the
-  `query string` parameter will be used.
 
-# LIMITS
-* The `/api/v1/exchangeInfo` `rateLimits` array contains objects related to the exchange's `REQUESTS` and `ORDER` rate limits.
-* A 429 will be returned when either rather limit is violated.
-* Each route has a `weight` which determines for the number of requests each endpoint counts for. Heavier endpoints and endpoints that do operations on multiple symbols will have a heavier `weight`.
-* When a 429 is recieved, it's your obligation as an API to back off and not spam the API.
-* **Repeatedly violating rate limits and/or failing to back off after receiving 429s will result in an automated IP ban (http status 418).**
-* IP bans are tracked and **scale in duration** for repeat offenders, **from 2 minutes to 3 days**.
 
 # Endpoint security type
-* Each endpoint has a security type that determines the how you will
-  interact with it.
 * API-keys are passed into the Rest API via the `X-CEX-APIKEY`
   header.
 * API-keys and secret-keys **are case sensitive**.
-* API-keys can be configured to only access certain types of secure endpoints.
- For example, one API-key could be used for TRADE only, while another API-key
- can access everything except for TRADE routes.
-* By default, API-keys can access all secure routes.
-
-Security Type | Description
------------- | ------------
-NONE | Endpoint can be accessed freely.
-TRADE | Endpoint requires sending a valid API-Key and signature.
-USER_DATA | Endpoint requires sending a valid API-Key and signature.
-USER_STREAM | Endpoint requires sending a valid API-Key.
-MARKET_DATA | Endpoint requires sending a valid API-Key.
-
-
-* `TRADE` and `USER_DATA` endpoints are `SIGNED` endpoints.
+* API-keys can access all secure routes.
 
 # SIGNED (TRADE and USER_DATA) Endpoint security
 * `SIGNED` endpoints require an additional parameter, `signature`, to be
@@ -74,27 +49,6 @@ MARKET_DATA | Endpoint requires sending a valid API-Key.
 ## Timing security
 * A `SIGNED` endpoint also requires a parameter, `timestamp`, to be sent which
   should be the millisecond timestamp of when the request was created and sent.
-* An additional parameter, `recvWindow`, may be sent to specific the number of
-  milliseconds after `timestamp` the request is valid for. If `recvWindow`
-  is not sent, **it defaults to 5000**.
-* The logic is as follows:
-  ```javascript
-  if (timestamp < (serverTime + 1000) && (serverTime - timestamp) <= recvWindow) {
-    // process request
-  } else {
-    // reject request
-  }
-  ```
-
-**Serious trading is about timing.** Networks can be unstable and unreliable,
-which can lead to requests taking varying amounts of time to reach the
-servers. With `recvWindow`, you can specify that the request must be
-processed within a certain number of milliseconds or be rejected by the
-server.
-
-
-**Tt recommended to use a small recvWindow of 5000 or less!**
-
 
 ## SIGNED Endpoint Examples for POST /api/v1/order
 Here is a step-by-step example of how to send a vaild signed payload from the
@@ -169,91 +123,9 @@ timestamp | 1499827319559
     ```
 
 Note that the signature is different in example 3.
-There is no & between "GTC" and "quantity=1".
+There is no & between "LIMIT" and "amount=1".
 
 # Public API Endpoints
-## Terminology
-* `base asset` refers to the asset that is the `quantity` of a symbol.
-* `quoate asset` refers to the asset that is the `price` of a symbol.
-
-
-## ENUM definitions
-**Symbol status:**
-
-* PRE_TRADING
-* TRADING
-* POST_TRADING
-* END_OF_DAY
-* HALT
-* AUCTION_MATCH
-* BREAK
-
-**Symbol type:**
-
-* SPOT
-
-**Order status:**
-
-* NEW
-* PARTIALLY_FILLED
-* FILLED
-* CANCELED
-* PENDING_CANCEL (currently unused)
-* REJECTED
-* EXPIRED
-
-**Order types:**
-
-* LIMIT
-* MARKET
-* STOP_LOSS
-* STOP_LOSS_LIMIT
-* TAKE_PROFIT
-* TAKE_PROFIT_LIMIT
-* LIMIT_MAKER
-
-**Order side:**
-
-* BUY
-* SELL
-
-**Time in force:**
-
-* GTC
-* IOC
-* FOK
-
-**Kline/Candlestick chart intervals:**
-
-m -> minutes; h -> hours; d -> days; w -> weeks; M -> months
-
-* 1m
-* 3m
-* 5m
-* 15m
-* 30m
-* 1h
-* 2h
-* 4h
-* 6h
-* 8h
-* 12h
-* 1d
-* 3d
-* 1w
-* 1M
-
-**Rate limiters (rateLimitType)**
-
-* REQUESTS
-* ORDERS
-
-**Rate limit intervals**
-
-* SECOND
-* MINUTE
-* DAY
-
 
 ## Market Data endpoints
 ### Order book
@@ -265,7 +137,7 @@ GET /api/v1/depth
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-symbol | STRING | YES |
+symbol | STRING | YES | e.g. ETH/BTC
 limit | INT | NO | Default 100; If limit is 10, you will get 10 bids and 10 asks.
 
 **Caution:** setting a big limit could cause request timeout
@@ -274,16 +146,16 @@ limit | INT | NO | Default 100; If limit is 10, you will get 10 bids and 10 asks
 ```javascript
 {
   "bids": [
-    [
-      "4.00000000",     // PRICE
-      "431.00000000"   // QTY
-    ]
+    {
+      "price": "4.00000200",
+      "amount": "12.00000000"
+    }
   ],
   "asks": [
-    [
-      "4.00000200",
-      "12.00000000"
-    ]
+    {
+      "price": "4.00000200",
+      "amount": "12.00000000"
+    }
   ]
 }
 ```
@@ -292,7 +164,7 @@ limit | INT | NO | Default 100; If limit is 10, you will get 10 bids and 10 asks
 ```
 GET /api/v1/ticker/24hr
 ```
-24 hour price change statistics. **Careful** when accessing this with no symbol.
+24 hour price change statistics.
 
 **Parameters:**
 
@@ -315,7 +187,8 @@ symbol | STRING | NO |
     "volume": '0.0413',
     "change": '4.35',
     "askPrice": '10000.00',
-    "bidPrice": '9999.00'
+    "bidPrice": '9999.00',
+    "timestamp": "2018-10-24T03:10:12.142Z"
   }
 ]
 ```
@@ -329,9 +202,6 @@ POST /api/v1/order  (HMAC SHA256)
 Send in a new order.
 
 Note that this API requires ID verification first, otherwise it returns 400 with error.
-
-**Weight:**
-1
 
 **Parameters:**
 
@@ -360,7 +230,16 @@ Type | Additional mandatory parameters
 Success response
 ```javascript
 {
-  "orderUuid": "a7b1f89a-660e-4c9c-8dc6-489860c4e82e",
+    "uuid": "50f78c1d-a61c-4cd7-baf4-5eeef27852a5",
+    "type": "LIMIT",
+    "side": "ASK",
+    "price": "1.3",
+    "amount": "1.3",
+    "filled": "0.0",
+    "status": "OPEN",
+    "createdAt": "2018-10-24T06:20:20.012Z",
+    "updatedAt": "2018-10-24T06:20:20.202Z",
+    "symbol": "ETH/BTC"
 }
 ```
 
@@ -401,7 +280,7 @@ Check an order's status.
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-orderId | LONG | YES |
+orderUuid | LONG | YES |
 timestamp | LONG | YES |
 
 
@@ -457,69 +336,24 @@ Get all open orders.
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 symbol | STRING | NO | If no symbol passed, return all open orders
-limit | INT | NO | default 100, max 1000 
+limit | INT | NO | default 500, max 1000 
 timestamp | LONG | YES |
 
 **Response:**
 ```javascript
 [
-  {
-    "uuid": "",
-    "price": "0.1",
-    "amount": "1.0",
-    "filled": "0.0",
-    "status": "Partial Filled",
-    "type": "LIMIT",
-    "side": "BUY",
-    "createdAt": "2018-06-27 16:47:55 +1000",
-    "tradingPair"{
-      "symbol" : "ETH/BTC"
+    {
+        "uuid": "50f78c1d-a61c-4cd7-baf4-5eeef27852a5",
+        "price": "1.3",
+        "createdAt": "2018-10-24T06:20:20.012Z",
+        "updatedAt": "2018-10-24T06:20:20.202Z",
+        "amount": "1.3",
+        "filled": "0.0",
+        "type": "LIMIT",
+        "side": "ASK",
+        "status": "OPEN",
+        "symbol": "ETH/BTC"
     }
-  }
-]
-```
-
-### All orders (USER_DATA)
-```
-GET /api/v1/allOrders (HMAC SHA256)
-```
-Get all account orders; active, canceled, or filled.
-
-**Weight:**
-5
-
-**Parameters:**
-
-Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-symbol | STRING | YES |
-orderId | LONG | NO |
-limit | INT | NO | Default 1000; max 1000.
-recvWindow | LONG | NO |
-timestamp | LONG | YES |
-
-* If `orderId` is set, it will get orders >= that `orderId`.
-Otherwise most recent orders are returned.
-
-**Response:**
-```javascript
-[
-  {
-    "symbol": "LTCBTC",
-    "orderId": 1,
-    "clientOrderId": "myOrder1",
-    "price": "0.1",
-    "origQty": "1.0",
-    "executedQty": "0.0",
-    "status": "NEW",
-    "timeInForce": "GTC",
-    "type": "LIMIT",
-    "side": "BUY",
-    "stopPrice": "0.0",
-    "icebergQty": "0.0",
-    "time": 1499827319559,
-    "isWorking": true
-  }
 ]
 ```
 
@@ -529,40 +363,33 @@ GET /api/v1/account (HMAC SHA256)
 ```
 Get current account information.
 
-**Weight:**
-5
-
 **Parameters:**
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-recvWindow | LONG | NO |
 timestamp | LONG | YES |
 
 **Response:**
 ```javascript
-{
-  "makerCommission": 15,
-  "takerCommission": 15,
-  "buyerCommission": 0,
-  "sellerCommission": 0,
-  "canTrade": true,
-  "canWithdraw": true,
-  "canDeposit": true,
-  "updateTime": 123456789,
-  "balances": [
+[
     {
-      "asset": "BTC",
-      "free": "4723846.89208129",
-      "locked": "0.00000000"
-    },
-    {
-      "asset": "LTC",
-      "free": "4763368.68006011",
-      "locked": "0.00000000"
+        "uuid": "35f354d2-06d6-45a6-aec2-1f1b082fdced",
+        "holderUuid": "627dffa7-4433-4fe0-bdc7-27adf8e75585",
+        "depositAddress": "0xef87011b6404e453bdf2212fe5bdb7c198f12503",
+        "totalBalance": "195.0843",
+        "availableBalance": "192.4843",
+        "inOrder": "2.6",
+        "coin": {
+            "uuid": "18bb0c4b-1b7d-4151-a95c-05994bc89d1c",
+            "symbol": "ETH",
+            "name": "Ethereum",
+            "precisionScale": 8,
+            "withdrawFee": "0.005",
+            "minimumWithdraw": "0.01",
+            "expectedConfirmations": 10
+        }
     }
-  ]
-}
+]
 ```
 
 ### Account trade list (USER_DATA)
@@ -571,15 +398,12 @@ GET /api/v1/myTrades  (HMAC SHA256)
 ```
 Get trades for a specific account and symbol.
 
-**Weight:**
-5
-
 **Parameters:**
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 symbol | STRING | YES |
-limit | INT | NO | Default 500; max 500.
+limit | INT | NO | 
 timestamp | LONG | YES |
 
 **Response:**
@@ -609,116 +433,4 @@ timestamp | LONG | YES |
     }
   }
 ]
-```
-
-# Filters
-Filters define trading rules on a symbol or an exchange.
-Filters come in two forms: `symbol filters` and `exchange filters`.
-
-## Symbol filters
-### PRICE_FILTER
-The `PRICE_FILTER` defines the `price` rules for a symbol. There are 3 parts:
-
-* `minPrice` defines the minimum `price`/`stopPrice` allowed.
-* `maxPrice` defines the maximum `price`/`stopPrice` allowed.
-* `tickSize` defines the intervals that a `price`/`stopPrice` can be increased/decreased by.
-
-In order to pass the `price filter`, the following must be true for `price`/`stopPrice`:
-
-* `price` >= `minPrice`
-* `price` <= `maxPrice`
-* (`price`-`minPrice`) % `tickSize` == 0
-
-**/exchangeInfo format:**
-```javascript
-  {
-    "filterType": "PRICE_FILTER",
-    "minPrice": "0.00000100",
-    "maxPrice": "100000.00000000",
-    "tickSize": "0.00000100"
-  }
-```
-
-### LOT_SIZE
-The `LOT_SIZE` filter defines the `quantity` (aka "lots" in auction terms) rules for a symbol. There are 3 parts:
-
-* `minQty` defines the minimum `quantity`/`icebergQty` allowed.
-* `maxQty` defines the maximum `quantity`/`icebergQty` allowed.
-* `stepSize` defines the intervals that a `quantity`/`icebergQty` can be increased/decreased by.
-
-In order to pass the `lot size`, the following must be true for `quantity`/`icebergQty`:
-
-* `quantity` >= `minQty`
-* `quantity` <= `maxQty`
-* (`quantity`-`minQty`) % `stepSize` == 0
-
-**/exchangeInfo format:**
-```javascript
-  {
-    "filterType": "LOT_SIZE",
-    "minQty": "0.00100000",
-    "maxQty": "100000.00000000",
-    "stepSize": "0.00100000"
-  }
-```
-
-### MIN_NOTIONAL
-The `MIN_NOTIONAL` filter defines the minimum notional value allowed for an order on a symbol.
-An order's notional value is the `price` * `quantity`.
-
-**/exchangeInfo format:**
-```javascript
-  {
-    "filterType": "MIN_NOTIONAL",
-    "minNotional": "0.00100000"
-  }
-```
-
-### MAX_NUM_ORDERS
-The `MAX_NUM_ORDERS` filter defines the maximum number of orders an account is allowed to have open on a symbol.
-Note that both "algo" orders and normal orders are counted for this filter.
-
-**/exchangeInfo format:**
-```javascript
-  {
-    "filterType": "MAX_NUM_ORDERS",
-    "limit": 25
-  }
-```
-
-### MAX_ALGO_ORDERS
-The `MAX_ALGO_ORDERS` filter defines the maximum number of "algo" orders an account is allowed to have open on a symbol.
-"Algo" orders are `STOP_LOSS`, `STOP_LOSS_LIMIT`, `TAKE_PROFIT`, and `TAKE_PROFIT_LIMIT` orders.
-
-**/exchangeInfo format:**
-```javascript
-  {
-    "filterType": "MAX_ALGO_ORDERS",
-    "limit": 5
-  }
-```
-
-## Exchange Filters
-### EXCHANGE_MAX_NUM_ORDERS
-The `MAX_NUM_ORDERS` filter defines the maximum number of orders an account is allowed to have open on the exchange.
-Note that both "algo" orders and normal orders are counted for this filter.
-
-**/exchangeInfo format:**
-```javascript
-  {
-    "filterType": "EXCHANGE_MAX_NUM_ORDERS",
-    "limit": 1000
-  }
-```
-
-### EXCHANGE_MAX_ALGO_ORDERS
-The `MAX_ALGO_ORDERS` filter defines the maximum number of "algo" orders an account is allowed to have open on the exchange.
-"Algo" orders are `STOP_LOSS`, `STOP_LOSS_LIMIT`, `TAKE_PROFIT`, and `TAKE_PROFIT_LIMIT` orders.
-
-**/exchangeInfo format:**
-```javascript
-  {
-    "filterType": "EXCHANGE_MAX_ALGO_ORDERS",
-    "limit": 200
-  }
 ```

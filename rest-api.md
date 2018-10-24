@@ -336,7 +336,7 @@ Get all open orders.
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 symbol | STRING | NO | If no symbol passed, return all open orders
-limit | INT | NO | default 500, max 1000 
+limit | INT | NO | default 1000, max 1000 
 timestamp | LONG | YES |
 
 **Response:**
@@ -403,7 +403,7 @@ Get trades for a specific account and symbol.
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 symbol | STRING | YES |
-limit | INT | NO | 
+limit | INT | NO | default 1000, max 1000 
 timestamp | LONG | YES |
 
 **Response:**

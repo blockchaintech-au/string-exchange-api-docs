@@ -6,11 +6,11 @@
 * All endpoints return either a JSON object or array.
 * Data is returned in **ascending** order. Oldest first, newest last.
 * All time and timestamp related fields are in milliseconds.
-* HTTP `400` return code are used for for malformed requests;
+* HTTP `400` return code is used for for malformed requests;
   the issue is on the sender's side.
-* HTTP `401` return code are used for API key and signature error.\
+* HTTP `401` return code is used for API key and signature error.\
 * HTTP `500` return code is used for server error
-* Any endpoint can retun an ERROR; the error payload is as follows:
+* Any endpoint can return an ERROR; the error payload is as follows:
 ```javascript
 {
   "errors": [

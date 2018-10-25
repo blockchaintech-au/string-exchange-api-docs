@@ -1,6 +1,6 @@
 **Thanks bitstamp**
 
-# Public WebSocket API for string.exchange (2018-09-10)
+# Public WebSocket API for string.exchange (2018-10-25)
 
 
 ## What is WebSocket?

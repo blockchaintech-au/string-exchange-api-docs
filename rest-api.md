@@ -2,6 +2,7 @@
 
 # Public Rest API for String.exchange
 # General API Information
+* Get your apiKey and secretKey from the UI api key page
 * The base endpoint is: **https://api.string.exchange**
 * All endpoints return either a JSON object or array.
 * Data is returned in **ascending** order. Oldest first, newest last.

@@ -9,25 +9,59 @@ WebSocket is a protocol providing full-duplex communications channels over a sin
 
 ## How to connect?
 
-String Exchange uses [Pusher](https://pusher.com/) for real time websocket streaming. Please refer to the [Pusher documentation](https://pusher.com/docs) and libraries to connect to our websocket stream. You can also find an example for each stream below.
+String Exchange uses [Pusher](https://pusher.com/) for real time websocket streaming. Please refer to the [Pusher documentation](https://pusher.com/docs) and libraries to connect to our websocket stream. We provide two types of channels for the clients to subscribe.
 
-For the subscription to private channels, authentication is mandatory. One example with *javascript* code sample is shown below
+* Public channel
+* Private channel
 
-### One-time API nonce creation
+### General Pusher Information
+
+* Pusher APP_KEY: 16e8920e945846c1be20
+* Pusher CLUSTER: ap1
+
+### Public channel subscription
+
+One example with *javascript* code sample is shown below
+
+```javascript
+// new a pusher instance
+var pusher = new Pusher('APP_KEY', { cluster: 'CLUSTER' });
+// subscribe the channel
+var channel = pusher.subscribe('channelName');
+// bind the event
+channel.bind('eventName', callback);
+```
+
+### Private channel subscription
+
+The subscription to private channels is processed in two steps.
+
+* Get one-time api nonce fro authentication through the api call
+* Connect to the private channel
+
+One example with *javascript* code sample is shown below
+
+### One-time API nonce creation by api
+
+#### How to sign a request payload
+
+  * BASE_ENDPOINT: https://api.string.exchange
+  * Get your API_KEY and SECRET_KEY from the UI api key page
+  * Refer to the document about [the request creation with the signature ](https://github.com/blockchaintech-au/string-exchange-api-docs/blob/master/rest-api.md#endpoint-security-type)
+  * If you request for multiple times in 30 seconds, it returns 429 with error.
+
+#### Nonce creation endpoint
 
 ```javascript
 POST /api/v1/nonce
 ```
-
-Note:
-* This API requires ID verification first, otherwise it returns 400 with error. For more detail, please refer to the [public restful api documentation](https://github.com/blockchaintech-au/cex-api-docs/blob/master/rest-api.md)
-* If you request for multiple times in 30 seconds, it returns 429 with error.
 
 **Parameters:**
 
 Name | Type | Mandatory | Example
 ------------ | ------------ | ------------ | ------------
 timestamp | LONG | YES | 1530077353000 |
+signature | STRING | YES | c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71 |
 
 **Response:**
 
@@ -52,50 +86,42 @@ Failure responses
 }
 ```
 
-### Pusher Authentication
+### Connect to the private channel
 
-Note:
-* Please refer to the [Pusher authentication](https://pusher.com/docs/authenticating_users)
-* Pusher app_key: 16e8920e945846c1be20
+One example with *javascript* code sample is shown below. You can also refer to the [Pusher authentication](https://pusher.com/docs/authenticating_users)
 
 ```javascript
-auth endpoint: /api/v1/pusher/authentication
-```
-
-**Parameters:**
-
-Name | Type | Mandatory | Example
------------- | ------------ | ------------ | ------------
-apiNonce | STRING | YES | diGRIKUg5q8VkuMlUyQflGoGlqKHRR5b31vHjMMF |
-accessKey | STRING | YES | diGRIKUg5q8VkuMlUyQflGoGlqKHRR5b31vHjMMF |
-
-**Example:**
-
-```javascript
-<script>
-  var pusher = new Pusher('app_key', {
-    authEndpoint: '/api/v1/pusher/authentication',
-    auth: {
-      params: {
-        apiNonce,
-        accessKey,
-      }
+// new a pusher instance
+var PUSHER_AUTH_ENDPOINT = "${BASE_ENDPOINT}/api/v1/pusher/authentication"
+var pusher = new Pusher(APP_KEY, {
+  cluster: CLUSTER,
+  authEndpoint: PUSHER_AUTH_ENDPOINT,
+  auth: {
+    params: {
+      apiNonce: API_NONCE, // from the response of nonce creation endpoint
+      accessKey: API_KEY
     }
-  });
-</script>
+  }
+});
+// subscribe the channel
+var channel = pusher.subscribe('channelName');
+// bind the event
+channel.bind('eventName', callback);
 ```
 
 ## Live Stream
 
-### My Trades (Private)
+### Private Stream
+
+#### My Trades
 
 **Request:**
 
-Name  | Example
------------- | ------------
-userUuid | 6e5d55b3-ad1d-43a3-ac5f-6e6935bf81d9 |
-channelName | private-user@{:userUuid}.trade |
-event | new |
+Name  | Example | description |
+------------ | ------------ | ------------ 
+userUuid | 6e5d55b3-ad1d-43a3-ac5f-6e6935bf81d9 | from the response of nonce creation endpoint
+channelName | private-user@{:userUuid}.trade | -
+event | new | -
 
 **Response:**
 
@@ -108,5 +134,38 @@ event | new |
   "symbol": "BTC/AUD",
   "maker": true/false,
   "side": "BID/ASK"
+}
+```
+
+### Public Stream
+
+#### DepthBook
+
+**Request:**
+
+Name  | Example | description
+precisionScale | 6 | BTC market is 6, AUD market is 2
+------------ | ------------ | ------------ 
+channelName | ETH/BTC@depth.6 | -
+event | new | -
+
+**Response:**
+
+```javascript
+"depthBook": {
+  "bids": [
+    {
+      "price": "1.00",
+      "amount": "1.23"
+    },
+    ...
+  ],
+  "asks": [
+    {
+      "price": "1.00",
+      "amount": "1.23"
+    },
+    ...
+  ]
 }
 ```

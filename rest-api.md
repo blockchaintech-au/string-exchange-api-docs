@@ -430,7 +430,9 @@ timestamp | LONG | YES |
         "symbol": "AUD",
         "precisionScale": 2
       },
-      "minimumTradingTotal": "10.0"
+      "minimumTradingTotal": "10.0",
+      "fee": "10",
+      "feeAsset": "AUD"
     }
   }
 ]

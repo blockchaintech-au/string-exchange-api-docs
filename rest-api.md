@@ -9,7 +9,7 @@
 * All time and timestamp related fields are in milliseconds.
 * HTTP `400` return code is used for for malformed requests;
   the issue is on the sender's side.
-* HTTP `401` return code is used for API key and signature error.\
+* HTTP `401` return code is used for API key and signature error.
 * HTTP `500` return code is used for server error
 * HTTP `504` return code is used for server timeout
 * Any endpoint can return an ERROR; the error payload is as follows:

@@ -146,7 +146,7 @@ event | new | -
 Name  | Example | description
 precisionScale | 6 | BTC market is 6, AUD market is 2
 ------------ | ------------ | ------------ 
-channelName | ETH/BTC@depth.6 | -
+channelName | ETH-BTC@depth6 | -
 event | new | -
 
 **Response:**

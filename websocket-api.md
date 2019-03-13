@@ -1,6 +1,6 @@
 **Thanks bitstamp**
 
-# Public WebSocket API for string.exchange (2018-10-25)
+# Public WebSocket API for Jinance (2019-03-13)
 
 
 ## What is WebSocket?
@@ -45,7 +45,7 @@ One example with *javascript* code sample is shown below
 
 #### How to sign a request payload
 
-  * BASE_ENDPOINT: https://api.string.exchange
+  * BASE_ENDPOINT: https://api.jinance.com.au
   * Get your API_KEY and SECRET_KEY from the UI api key page
   * Refer to the document about [the request creation with the signature ](https://github.com/blockchaintech-au/string-exchange-api-docs/blob/master/rest-api.md#endpoint-security-type)
   * If you request for multiple times in 30 seconds, it returns 429 with error.

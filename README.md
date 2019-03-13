@@ -1,4 +1,4 @@
-# string-exchange-api-docs
+# jinance-api-docs
 
 ## API Documentations.
 
@@ -8,4 +8,4 @@
 
 ## SDK Libraries
 
-[php-string-exchange-api](https://github.com/blockchaintech-au/string-exchange-php-sdk)
+[php-jinance-api](https://github.com/blockchaintech-au/string-exchange-php-sdk)

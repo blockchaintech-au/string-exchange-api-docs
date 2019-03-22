@@ -8,4 +8,4 @@
 
 ## SDK Libraries
 
-[php-jinance-api](https://github.com/blockchaintech-au/string-exchange-php-sdk)
+[php-jinance-api](https://github.com/blockchaintech-au/jinance-php-sdk)

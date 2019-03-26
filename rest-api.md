@@ -7,6 +7,7 @@
 * All endpoints return either a JSON object or array.
 * Data is returned in **ascending** order. Oldest first, newest last.
 * All time and timestamp related fields are in milliseconds.
+* Each timestamp can be applied for one request only for one user.
 * HTTP `400` return code is used for for malformed requests;
   the issue is on the sender's side.
 * HTTP `401` return code is used for API key and signature error.
